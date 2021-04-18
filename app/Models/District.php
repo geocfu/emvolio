@@ -25,7 +25,7 @@ class District extends Model
         'total_vaccinations',
     ];
 
-    public function DailyVaccinations(): HasMany
+    public function dailyVaccinations(): HasMany
     {
         return $this->hasMany(DailyVaccination::class, 'district_id');
     }

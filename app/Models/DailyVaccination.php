@@ -24,7 +24,7 @@ class DailyVaccination extends Model
        'reference_date',
     ];
 
-    public function DailyVaccinations(): BelongsTo
+    public function districts(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_id');
     }

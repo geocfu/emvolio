@@ -2,12 +2,17 @@
   <app-layout>
     <main-header>
       <template #title>
-        Συνολικός αριθμός εμβολιασμένων πολιτών κατά τoυ covid-19 έως σήμερα
-        στην Ελλάδα
+        Aριθμός εμβολιασμένων πολιτών κατά τoυ
+        <span class="block text-red-600 inline">SARS-cov-19</span>
       </template>
-      <template #number>770.207</template>
+      <template #number>{{ totalVaccinations.toLocaleString() }}</template>
       <template #subtitle>
-        Συνολικός αριθμός εμβολιασμένων πολιτών και με τις 2 δόσεις του εμβολίου
+        *Συνολικός αριθμός εμβολιασμένων πολιτών με τουλάχιστον 1 δόση του
+        εμβολίου, αυτη την στιγμή, στην Ελλαδα
+      </template>
+      <template #updateDate>
+        H τελευταία ενημέρωση πραγματοποιήθηκε στις
+        {{ lastUpdate }}
       </template>
     </main-header>
     <main-stats></main-stats>
@@ -21,7 +26,7 @@
         unlock additional features.
       </template>
     </section-title>
-    <districts-table></districts-table>
+    <districts-table :districts="districts"></districts-table>
     <sponsors></sponsors>
     <project-information></project-information>
   </app-layout>
@@ -50,11 +55,35 @@ export default {
   },
 
   props: {
-    vaccinatedPopulation: {
-      type: String,
-      // required: true
+    districts: {
+      type: Array,
+      required: true,
+    },
+    totalVaccinations: {
+      type: Number,
+      required: true,
+    },
+    totalDose1Vaccinations: {
+      type: Number,
+      required: true,
+    },
+    totalDose2Vaccinations: {
+      type: Number,
+      required: true,
+    },
+    lastUpdate: {
+      type: Object,
+      required: true,
     },
   },
-  setup() {},
+  setup(props) {
+    const lastUpdate = new Date(props.lastUpdate.updated_at).toLocaleDateString(
+      "el-GR"
+    );
+
+    return {
+      lastUpdate,
+    };
+  },
 };
 </script>

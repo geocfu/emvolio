@@ -24,7 +24,7 @@
                 <dt
                   class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500"
                 >
-                  Pepperoni
+                  Εμβολιασμένοι πολίτες και με τις 2 δόσεις
                 </dt>
                 <dd class="order-1 text-5xl font-extrabold text-green-600">
                   100%
@@ -36,7 +36,7 @@
                 <dt
                   class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500"
                 >
-                  Delivery
+                  Εμβολιασμένοι πολίτες και με την 1η δόση
                 </dt>
                 <dd class="order-1 text-5xl font-extrabold text-green-600">
                   24/7
