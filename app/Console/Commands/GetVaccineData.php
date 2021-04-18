@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DailyVaccination;
 use App\Models\District;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class GetVaccineData extends Command
 {
@@ -41,34 +43,11 @@ class GetVaccineData extends Command
     {
         $url = env('DATA_GOV_GR_URL_VACCINE');
         $token= env('DATA_GOV_GR_TOKEN');
-
-        $existingData = District::first();
         
-        $dateFrom = date('Y/m/d', strtotime('-1 days'));
-        if (!$existingData) {
-            // The db is empty, so we must populate it with data from the beggining of recorded time
-            $dateFrom = '2020-12-28';
-        }
-        var_dump($dateFrom);
-        
-        // $response = Http::withHeaders([
-        //     'Authorization' => "Token $token"
-        // ])
-        // ->get($url, [
-        //     'date_from' => "$date_from",
-        //     'date_to' => date("Y/m/d"),
-        // ])
-        // ->json();
         $response = Http::withHeaders([
             'Authorization' => "Token $token"
         ])
-        ->get(
-            $url,
-            [
-                'date_from' => $dateFrom,
-                'date_to' => date('Y/m/d'),
-            ]
-        )
+        ->get($url)
         ->json();
         
         if (!is_array($response)) {
@@ -77,31 +56,35 @@ class GetVaccineData extends Command
             return;
         }
 
-        foreach ($response as $district) {
-            foreach ($district as $key) {
-                // $validated = $response->validate([
-                //     'title' => 'required|unique:posts|max:255',
-                //     'body' => 'required',
-                // ]);
-                // District::create([
-                //     'area' => '',
-                //     'areaid' => '',
-                //     'dailydose1' => '',
-                //     'dailydose2' => '',
-                //     'daydiff' => '',
-                //     'daytotal' => '',
-                //     'referencedate' => '',
-                //     'totaldistinctpersons' => '',
-                //     'totaldose1' => '',
-                //     'totaldose2' => '',
-                //     'totalvaccinations' => '',
-                // ]);
-                
-                
-                echo $key .'\n\n';
+        DB::transaction(function () use ($response) {
+            foreach ($response as $districtFromApi) {
+                $district = District::updateOrCreate(
+                    [
+                        'area' => $districtFromApi['area'],
+                        'area_id' => $districtFromApi['areaid'],
+                    ],
+                    [
+                        'reference_date' =>  $districtFromApi['referencedate'],
+                        'total_distinct_persons' => $districtFromApi['totaldistinctpersons'],
+                        'total_dose_1' => $districtFromApi['totaldose1'],
+                        'total_dose_2' => $districtFromApi['totaldose2'],
+                        'total_vaccinations' => $districtFromApi['totalvaccinations'],
+                    ]
+                );
+            
+                DailyVaccination::updateOrCreate(
+                    [
+                        'district_id' => $district->id,
+                        'reference_date' => $districtFromApi['referencedate'],
+                    ],
+                    [
+                        'daily_dose_1' =>  $districtFromApi['dailydose1'],
+                        'daily_dose_2' => $districtFromApi['dailydose2'],
+                        'day_difference' => $districtFromApi['daydiff'],
+                        'day_total' => $districtFromApi['daytotal'],
+                    ]
+                );
             }
-        }
-
-        // District::()
+        });
     }
 }
