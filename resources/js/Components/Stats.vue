@@ -1,19 +1,17 @@
 <template>
-  <div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <dl
-      class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x"
+      class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x mb-5"
     >
       <div v-for="item in stats" :key="item.name" class="px-4 py-5 sm:p-6">
         <dt class="text-base font-normal text-gray-900">
           {{ item.name }}
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
-          <div
-            class="flex items-baseline text-2xl font-semibold text-indigo-600"
-          >
+          <div class="flex items-baseline text-2xl font-semibold text-blue-600">
             {{ item.stat }}
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from {{ item.previousStat }}
+              από {{ item.previousStat }}
             </span>
           </div>
 
@@ -50,39 +48,17 @@
 <script>
 import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/vue/solid";
 
-const stats = [
-  {
-    name: "Total Subscribers",
-    stat: "71,897",
-    previousStat: "70,946",
-    change: "12%",
-    changeType: "increase",
-  },
-  {
-    name: "Avg. Open Rate",
-    stat: "58.16%",
-    previousStat: "56.14%",
-    change: "2.02%",
-    changeType: "increase",
-  },
-  {
-    name: "Avg. Click Rate",
-    stat: "24.57%",
-    previousStat: "28.62%",
-    change: "4.05%",
-    changeType: "decrease",
-  },
-];
-
 export default {
   components: {
     ArrowSmDownIcon,
     ArrowSmUpIcon,
   },
-  setup() {
-    return {
-      stats,
-    };
+
+  props: {
+    stats: {
+      type: Array,
+      required: true,
+    },
   },
 };
 </script>

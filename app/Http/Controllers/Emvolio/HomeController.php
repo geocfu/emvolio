@@ -14,9 +14,11 @@ class HomeController extends Controller
     public function index(): Response
     {
         // All the districts
-        $districts = District::with(['dailyVaccinations'])->get(['area', 'total_vaccinations', 'total_dose_1', 'total_dose_2']);
+        $districts = District::
+            with(['dailyVaccinations'])
+            ->get(['area', 'total_vaccinations', 'total_dose_1', 'total_dose_2']);
         // $districts = DailyVaccination::get();
-        // dd($districts);
+
         // The number of vaccinated citizens for the first and second dose
         $totalVaccinations = District::sum('total_vaccinations');
 
@@ -27,14 +29,28 @@ class HomeController extends Controller
         $totalDose2Vaccinations = District::sum('total_dose_2');
 
         // The date of the last update
-        $lastUpdate = District::orderBy('updated_at', 'asc')->first(['updated_at']);
-        // dd($lastUpdateDate);
+        $lattestUpdateDatetime = District::orderBy('reference_date', 'desc')
+            ->first(['reference_date']);
+        
+        // The number of vaccinated citizens for the lattest date available
+        $lattestTotalDailyVaccinations = DailyVaccination::where('reference_date', '=', $lattestUpdateDatetime->reference_date)
+            ->sum('day_total');
+
+        // The number of vaccinated citizens for 1 day before the lattest date available
+        $oneDayBeforeLattestTotalDailyVaccinations = DailyVaccination::
+            where('reference_date', '=', date('Y-m-d', strtotime(substr($lattestUpdateDatetime->reference_date, 0, -9).'-1 days')))
+            ->sum('day_total');
+
+        // $districts1 = District::with(['dailyVaccinations'])->get()->toJson(JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        
         return Inertia::render('Home', [
             'districts' => $districts,
             'totalVaccinations' => $totalVaccinations,
             'totalDose1Vaccinations' => $totalDose1Vaccinations,
             'totalDose2Vaccinations' => $totalDose2Vaccinations,
-            'lastUpdate' => $lastUpdate,
+            'lattestTotalDailyVaccinations' => $lattestTotalDailyVaccinations,
+            'oneDayBeforeLattestTotalDailyVaccinations' => $oneDayBeforeLattestTotalDailyVaccinations,
+            'lattestUpdateDatetime' => $lattestUpdateDatetime->reference_date,
         ]);
     }
 }

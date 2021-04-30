@@ -27,7 +27,6 @@ if (mix.inProduction()) {
   mix.version();
 } else {
   const hmrPort = Number(process.env.MIX_HMR_PORT)
-  // No need to use LiveReload since we have $ yarn hot
 
   mix.options({
     // https://github.com/JeffreyWay/laravel-mix/blob/c67ff394bfffead9a1e2bc71ac97559e394e4cfe/src/config.js#L24
