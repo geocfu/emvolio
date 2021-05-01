@@ -3,15 +3,16 @@
     <template #header>
       <header-section>
         <template #title>
-          Aριθμός εμβολιασμένων πολιτών κατά της
+          Aριθμός εμβολιασμένων πολιτών κατά του
           <span class="text-red-600 inline">COVID-19</span>
         </template>
-        <template #number>{{ totalVaccinations.toLocaleString() }}</template>
+        <template #number>{{
+          totalVaccinations.toLocaleString("el-GR")
+        }}</template>
         <template #subtitle>
-          Συνολικός αριθμός εμβολιασμένων πολιτών με τουλάχιστον 1 δόση του
-          εμβολίου, μέχρι αυτη την στιγμή, στην Ελλαδα.
+          Συνολικός αριθμός εμβολιασμένων πολιτών στην Ελλαδα.
         </template>
-        <template #lastUpdateRibbon> Τελευταία Ενημέρωση </template>
+        <template #lastUpdateRibbon> Τελευταια Ενημερωση </template>
         <template #lastUpdateNumber>
           {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
         </template>
@@ -20,26 +21,41 @@
 
     <main-stats>
       <template #title>
-        Η πορεία του εμβολιασμού,
-        <span class="block lg:inline"> με μια ματιά. </span>
+        Η πορεία του εμβολιασμού
+        <span class="block lg:inline"> με μια ματιά </span>
       </template>
-      <template #subtitle>
-        Δείτε τα ποσοστά εμβολιασμένων πολιτών για όλες τις δόσεις του εμβολίου
-      </template>
-      <template #leftTitle>Εμβολιασμένοι πολίτες με την 1η δόση</template>
-      <template #leftPercentage>
+      <template #subtitle> Ποσοστά εμβολιασμένων πολιτών </template>
+
+      <template #leftTitle
+        >Σύνολο εμβολιασμένων πολιτών με 1η & 2η δόση</template
+      >
+      <template #leftPercentage> {{ totalVaccinationsPercentage }} % </template>
+
+      <template #middleTitle>Εμβολιασμένοι πολίτες με 1η δόση</template>
+      <template #middlePercentage>
         {{ totalDose1VaccinationsPercentage }} %
       </template>
-      <template #middleTitle>Εμβολιασμένοι πολίτες με την 2η δόση</template>
-      <template #middlePercentage>
-        {{ totalDose2VaccinationsPercentage }} %
-      </template>
-      <!-- <template #rightTitle>test2</template>
-      <template #rightPercentage></template> -->
-    </main-stats>
-    <!-- <stats></stats>-->
-    <stats :stats="stats"></stats>
 
+      <template #rightTitle>Εμβολιασμένοι πολίτες με 2η δόση</template>
+      <template #rightPercentage>
+        {{ totalDose2VaccinationsPercentage }} %</template
+      >
+    </main-stats>
+
+    <simple-stats :stats="simpleStats"></simple-stats>
+
+    <stats :stats="stats">
+      <template #information>
+        Στατιστικά δεδομένα για
+        {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }} σε
+        σχέση με
+        {{
+          new Date(oneDayBeforelattestUpdateDatetime).toLocaleDateString(
+            "el-GR"
+          )
+        }}
+      </template>
+    </stats>
     <!-- <section-title>
       <template #section> Section </template>
       <template #title> Take control of your team. </template>
@@ -49,16 +65,20 @@
       </template>
     </section-title> -->
 
-    <!-- <districts-table :districts="districts"></districts-table> -->
+    <districts-table :districts="districts">
+      <template #information>
+        Πρόοδος εμβολιασμού ανά Περιφερειακή Ενότητα
+      </template>
+    </districts-table>
 
-    <!-- <sponsors></sponsors>
+    <sponsors></sponsors>
 
-    <project-information></project-information> -->
+    <project-information></project-information>
   </app-layout>
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import AppLayout from "./Layouts/AppLayout.vue";
 import HeaderSection from "../Components/HeaderSection.vue";
@@ -68,6 +88,7 @@ import SectionTitle from "../Components/SectionTitle.vue";
 import DistrictsTable from "../Components/DistrictsTable.vue";
 import Sponsors from "../Components/Sponsors.vue";
 import ProjectInformation from "../Components/ProjectInformation.vue";
+import SimpleStats from "../Components/SimpleStats.vue";
 
 const GREEK_POPULATION = 10720000;
 
@@ -81,6 +102,7 @@ export default {
     DistrictsTable,
     Sponsors,
     ProjectInformation,
+    SimpleStats,
   },
 
   props: {
@@ -108,68 +130,153 @@ export default {
       type: Number,
       required: true,
     },
+    lattestTotalDose1DailyVaccinations: {
+      type: Number,
+      required: true,
+    },
+    oneDayBeforeLattestTotalDose1DailyVaccinations: {
+      type: Number,
+      required: true,
+    },
+    lattestTotalDose2DailyVaccinations: {
+      type: Number,
+      required: true,
+    },
+    oneDayBeforeLattestTotalDose2DailyVaccinations: {
+      type: Number,
+      required: true,
+    },
     lattestUpdateDatetime: {
+      type: String,
+      required: true,
+    },
+    oneDayBeforelattestUpdateDatetime: {
       type: String,
       required: true,
     },
   },
 
   setup(props) {
-    const lastUpdated = new Date(
-      props.lattestUpdateDatetime.slice(0, -9)
-    ).toLocaleDateString("el-GR");
+    const totalVaccinationsPercentage = (
+      (props.totalVaccinations / GREEK_POPULATION) *
+      100
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
 
     const totalDose1VaccinationsPercentage = (
       (props.totalDose1Vaccinations / GREEK_POPULATION) *
       100
-    ).toFixed(2);
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
 
     const totalDose2VaccinationsPercentage = (
       (props.totalDose2Vaccinations / GREEK_POPULATION) *
       100
-    ).toFixed(2);
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
 
-    const dailyVaccinationsChangePercentage = (
+    const dailyTotalVaccinationsChangePercentage = (
       ((props.lattestTotalDailyVaccinations -
         props.oneDayBeforeLattestTotalDailyVaccinations) /
         props.oneDayBeforeLattestTotalDailyVaccinations) *
       100
-    ).toFixed(2);
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
+
+    const dailyTotalDose1VaccinationsChangePercentage = (
+      ((props.lattestTotalDose1DailyVaccinations -
+        props.oneDayBeforeLattestTotalDose1DailyVaccinations) /
+        props.oneDayBeforeLattestTotalDose1DailyVaccinations) *
+      100
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
+
+    const dailyTotalDose2VaccinationsChangePercentage = (
+      ((props.lattestTotalDose2DailyVaccinations -
+        props.oneDayBeforeLattestTotalDose2DailyVaccinations) /
+        props.oneDayBeforeLattestTotalDose2DailyVaccinations) *
+      100
+    )
+      .toFixed(2)
+      .toLocaleString("el-GR");
 
     const stats = [
       {
-        name: `Εμβολιασμοί την ${lastUpdated}`,
-        stat: `${props.lattestTotalDailyVaccinations}`,
-        previousStat: `${props.oneDayBeforeLattestTotalDailyVaccinations}`,
-        change: `${dailyVaccinationsChangePercentage} %`,
+        name: `Εμβολιασμοί 1ης & 2ης δόσης`,
+        stat: props.lattestTotalDailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalVaccinationsChangePercentage.toLocaleString(
+          "el-GR"
+        )} %`,
         changeType: `${
-          props.lattestTotalDailyVaccinations <
+          props.lattestTotalDailyVaccinations >
           props.oneDayBeforeLattestTotalDailyVaccinations
             ? "increase"
             : "decreace"
         }`,
       },
       {
-        name: ``,
-        stat: "58.16%",
-        previousStat: "56.14%",
-        change: "2.02%",
-        changeType: "increase",
+        name: "Εμβολιασμοί 1ης δόσης",
+        stat: props.lattestTotalDose1DailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalDose1VaccinationsChangePercentage.toLocaleString(
+          "el-GR"
+        )} %`,
+        changeType: `${
+          props.lattestTotalDose1DailyVaccinations >
+          props.oneDayBeforeLattestTotalDose1DailyVaccinations
+            ? "increase"
+            : "decreace"
+        }`,
       },
       {
-        name: "Avg. Click Rate",
-        stat: "24.57%",
-        previousStat: "28.62%",
-        change: "4.05%",
-        changeType: "decrease",
+        name: "Εμβολιασμοί 2ης δόσης",
+        stat: props.lattestTotalDose2DailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalDose2VaccinationsChangePercentage.toLocaleString(
+          "el-GR"
+        )} %`,
+        changeType: `${
+          props.lattestTotalDose2DailyVaccinations >
+          props.oneDayBeforeLattestTotalDose2DailyVaccinations
+            ? "increase"
+            : "decreace"
+        }`,
+      },
+    ];
+
+    const simpleStats = [
+      {
+        name: "Εμβολιασμένοι πολίτες με 1η & 2η δόση",
+        stat: props.totalVaccinations.toLocaleString("el-GR"),
+      },
+      {
+        name: "Εμβολιασμένοι πολίτες με 1η δόση",
+        stat: props.totalDose1Vaccinations.toLocaleString("el-GR"),
+      },
+      {
+        name: "Εμβολιασμένοι πολίτες με 2η δόση",
+        stat: props.totalDose2Vaccinations.toLocaleString("el-GR"),
       },
     ];
 
     return {
-      // lastUpdated,
+      totalVaccinationsPercentage,
       totalDose1VaccinationsPercentage,
       totalDose2VaccinationsPercentage,
       stats,
+      simpleStats,
     };
   },
 };

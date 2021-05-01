@@ -1,5 +1,8 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+    <h3 class="text-xl leading-6 font-medium text-gray-900 mt-10">
+      <slot name="information"></slot>
+    </h3>
     <dl
       class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x mb-5"
     >
