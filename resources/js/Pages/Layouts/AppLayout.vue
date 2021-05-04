@@ -220,7 +220,7 @@ export default {
     const navigation = {
       main: [
         { name: "Αρχική", href: "#" },
-        { name: "Ποιοί Είμαστε", href: "/about-us" },
+        // { name: "Ποιοί Είμαστε", href: "/about-us" },
       ],
       social: [
         {

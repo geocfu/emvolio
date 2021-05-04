@@ -10,7 +10,11 @@
         >
           <!-- md:col-span-2 lg:col-span-1 -->
           <a :href="sponsor.link" target="blank">
-            <img class="h-32" :src="sponsor.image" :alt="sponsor.name" />
+            <img
+              class="h-16 md:h-32"
+              :src="sponsor.image"
+              :alt="sponsor.name"
+            />
           </a>
         </div>
       </div>
