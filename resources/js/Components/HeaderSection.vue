@@ -34,6 +34,13 @@
         <CalendarIcon class="ml-2.5 w-5 h-5 text-gray-500" aria-hidden="true" />
       </div>
     </div>
+    <div class="flex justify-center justify-items-center mt-5">
+      <div>
+        <span class="text-xs text-gray-500">
+          <slot name="dataSource"></slot>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 

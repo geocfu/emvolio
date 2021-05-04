@@ -16,6 +16,9 @@
         <template #lastUpdateNumber>
           {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
         </template>
+        <template #dataSource>
+          Πηγή: <a href="https://data.gov.gr" target="blank">data.gov.gr</a>
+        </template>
       </header-section>
     </template>
 
@@ -56,14 +59,6 @@
         }}
       </template>
     </stats>
-    <!-- <section-title>
-      <template #section> Section </template>
-      <template #title> Take control of your team. </template>
-      <template #subtitle>
-        Start building for free, then add a site plan to go live. Account plans
-        unlock additional features.
-      </template>
-    </section-title> -->
 
     <districts-table :districts="districts">
       <template #information>
@@ -71,9 +66,27 @@
       </template>
     </districts-table>
 
-    <sponsors></sponsors>
+    <section-title>
+      <template #title>
+        Οι χορηγοί που έκαναν το παρών έργο πραγματικότητα
+      </template>
+      <template #subtitle>
+        Ωντας η εφαρμογη εργο ανοιχτου λογισμικου, η καλυψη των εξοδων της
+        γινεται αποκλειστηκα απο την παρουσια χορηγων.
+      </template>
+    </section-title>
 
-    <project-information></project-information>
+    <sponsors :sponsors="sponsors"> </sponsors>
+
+    <project-information>
+      <template #title> Έργο Ανοιχτού Λογισμικού </template>
+      <template #subtitle>
+        Η παρούσα εφαρμογή αποτελεί έργο ανοιχτού λογισμικού και ο κώδικας της
+        διανέμεται ελεύθερα στο Github. Σκοπός της εφαρμογής δεν είναι η συλλογή
+        εσόδων, αλλά, η ενημέρωση των πολιτών για την κατάσταση του εμβολιασμού
+        κατα της λοιμωξης COVID-19, στην Ελλαδα.
+      </template>
+    </project-information>
   </app-layout>
 </template>
 
@@ -178,83 +191,41 @@ export default {
       .toFixed(2)
       .toLocaleString("el-GR");
 
-    const dailyTotalVaccinationsChangePercentage = (
-      ((props.lattestTotalDailyVaccinations -
-        props.oneDayBeforeLattestTotalDailyVaccinations) /
-        props.oneDayBeforeLattestTotalDailyVaccinations) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
+    const dailyTotalVaccinationsChangePercentage =
+      props.oneDayBeforeLattestTotalDailyVaccinations !== 0
+        ? (
+            ((props.lattestTotalDailyVaccinations -
+              props.oneDayBeforeLattestTotalDailyVaccinations) /
+              props.oneDayBeforeLattestTotalDailyVaccinations) *
+            100
+          )
+            .toFixed(2)
+            .toLocaleString("el-GR")
+        : "Ραγδαία Μεταβολή";
 
-    const dailyTotalDose1VaccinationsChangePercentage = (
-      ((props.lattestTotalDose1DailyVaccinations -
-        props.oneDayBeforeLattestTotalDose1DailyVaccinations) /
-        props.oneDayBeforeLattestTotalDose1DailyVaccinations) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
+    const dailyTotalDose1VaccinationsChangePercentage =
+      props.oneDayBeforeLattestTotalDose1DailyVaccinations !== 0
+        ? (
+            ((props.lattestTotalDose1DailyVaccinations -
+              props.oneDayBeforeLattestTotalDose1DailyVaccinations) /
+              props.oneDayBeforeLattestTotalDose1DailyVaccinations) *
+            100
+          )
+            .toFixed(2)
+            .toLocaleString("el-GR")
+        : "Ραγδαία Μεταβολή";
 
-    const dailyTotalDose2VaccinationsChangePercentage = (
-      ((props.lattestTotalDose2DailyVaccinations -
-        props.oneDayBeforeLattestTotalDose2DailyVaccinations) /
-        props.oneDayBeforeLattestTotalDose2DailyVaccinations) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
-
-    const stats = [
-      {
-        name: `Εμβολιασμοί 1ης & 2ης δόσης`,
-        stat: props.lattestTotalDailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
-        change: `${dailyTotalVaccinationsChangePercentage.toLocaleString(
-          "el-GR"
-        )} %`,
-        changeType: `${
-          props.lattestTotalDailyVaccinations >
-          props.oneDayBeforeLattestTotalDailyVaccinations
-            ? "increase"
-            : "decreace"
-        }`,
-      },
-      {
-        name: "Εμβολιασμοί 1ης δόσης",
-        stat: props.lattestTotalDose1DailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
-        change: `${dailyTotalDose1VaccinationsChangePercentage.toLocaleString(
-          "el-GR"
-        )} %`,
-        changeType: `${
-          props.lattestTotalDose1DailyVaccinations >
-          props.oneDayBeforeLattestTotalDose1DailyVaccinations
-            ? "increase"
-            : "decreace"
-        }`,
-      },
-      {
-        name: "Εμβολιασμοί 2ης δόσης",
-        stat: props.lattestTotalDose2DailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
-        change: `${dailyTotalDose2VaccinationsChangePercentage.toLocaleString(
-          "el-GR"
-        )} %`,
-        changeType: `${
-          props.lattestTotalDose2DailyVaccinations >
-          props.oneDayBeforeLattestTotalDose2DailyVaccinations
-            ? "increase"
-            : "decreace"
-        }`,
-      },
-    ];
+    const dailyTotalDose2VaccinationsChangePercentage =
+      props.oneDayBeforeLattestTotalDose2DailyVaccinations !== 0
+        ? (
+            ((props.lattestTotalDose2DailyVaccinations -
+              props.oneDayBeforeLattestTotalDose2DailyVaccinations) /
+              props.oneDayBeforeLattestTotalDose2DailyVaccinations) *
+            100
+          )
+            .toFixed(2)
+            .toLocaleString("el-GR")
+        : "Ραγδαία Μεταβολή";
 
     const simpleStats = [
       {
@@ -271,12 +242,71 @@ export default {
       },
     ];
 
+    const stats = [
+      {
+        name: `Εμβολιασμοί 1ης & 2ης δόσης`,
+        stat: props.lattestTotalDailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalVaccinationsChangePercentage} %`,
+        changeType: `${
+          props.lattestTotalDailyVaccinations >
+          props.oneDayBeforeLattestTotalDailyVaccinations
+            ? "increase"
+            : "decreace"
+        }`,
+      },
+      {
+        name: "Εμβολιασμοί 1ης δόσης",
+        stat: props.lattestTotalDose1DailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalDose1VaccinationsChangePercentage} %`,
+        changeType: `${
+          props.lattestTotalDose1DailyVaccinations >
+          props.oneDayBeforeLattestTotalDose1DailyVaccinations
+            ? "increase"
+            : "decreace"
+        }`,
+      },
+      {
+        name: "Εμβολιασμοί 2ης δόσης",
+        stat: props.lattestTotalDose2DailyVaccinations.toLocaleString("el-GR"),
+        previousStat: props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
+          "el-GR"
+        ),
+        change: `${dailyTotalDose2VaccinationsChangePercentage} %`,
+        changeType: `${
+          props.lattestTotalDose2DailyVaccinations >
+          props.oneDayBeforeLattestTotalDose2DailyVaccinations
+            ? "increase"
+            : "decreace"
+        }`,
+      },
+    ];
+
+    const sponsors = [
+      {
+        name: "Pantherify.com",
+        image: "../../images/panterify-logo.png",
+        link: "https://pantherify.com/",
+      },
+      {
+        name: "BiHELab",
+        image: "../../images/bihelab-logo.png",
+        link: " http://bihelab.di.ionio.gr/",
+      },
+    ];
+
     return {
       totalVaccinationsPercentage,
       totalDose1VaccinationsPercentage,
       totalDose2VaccinationsPercentage,
       stats,
       simpleStats,
+      sponsors,
     };
   },
 };
