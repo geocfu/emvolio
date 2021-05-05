@@ -4,7 +4,9 @@
       <header-section>
         <template #title>
           Aριθμός εμβολιασμένων πολιτών κατά του
-          <span class="text-red-600 inline">COVID-19</span>
+          <span class="text-red-600 sm:inline md:block lg:inline"
+            >COVID-19</span
+          >
         </template>
         <template #number>{{
           totalVaccinations.toLocaleString("el-GR")
