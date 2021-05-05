@@ -84,11 +84,7 @@
             <div class="flex items-center justify-between w-full md:w-auto">
               <inertia-link href="#">
                 <span class="sr-only">emvolio.org</span>
-                <img
-                  class="h-8 w-auto sm:h-10"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt=""
-                />
+                <Logo class="h-16 w-auto sm:h-24"></Logo>
               </inertia-link>
               <div class="-mr-2 flex items-center md:hidden">
                 <PopoverButton
@@ -129,11 +125,7 @@
           >
             <div class="px-5 pt-4 flex items-center justify-between">
               <div>
-                <img
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt=""
-                />
+                <Logo class="h-16 w-auto"></Logo>
               </div>
               <div class="-mr-2">
                 <PopoverButton
@@ -198,12 +190,17 @@
         >
         <span class="block">All rights reserved.</span>
       </p>
+      <div class="flex justify-center justify-items-center">
+        <Logo class="h-32 text-center w-auto"></Logo>
+      </div>
     </div>
   </footer>
 </template>
 
 <script>
 import { defineComponent, h } from "vue";
+
+import Logo from "../../Components/Logo.vue";
 
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { MenuIcon, XIcon } from "@heroicons/vue/outline";
@@ -215,6 +212,7 @@ export default {
     PopoverPanel,
     MenuIcon,
     XIcon,
+    Logo,
   },
   setup() {
     const navigation = {

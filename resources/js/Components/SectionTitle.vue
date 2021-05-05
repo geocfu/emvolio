@@ -7,7 +7,7 @@
         >
           <slot name="title"></slot>
         </p>
-        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">
+        <p class="max-w-3xl mt-5 mx-auto text-xl text-gray-500">
           <slot name="subtitle"></slot>
         </p>
       </div>

@@ -43,11 +43,9 @@ class HomeController extends Controller
             where('reference_date', '=', $oneDayBeforelattestUpdateDatetime)
             ->sum('day_total');
 
-
-
         // The number of vaccinated citizens for the first dose for the lattest date available
         $lattestTotalDose1DailyVaccinations = DailyVaccination::where('reference_date', '=', $lattestUpdateDatetime->reference_date)
-        ->sum('daily_dose_1');
+            ->sum('daily_dose_1');
 
         // The number of vaccinated citizens for the first dose for 1 day before the lattest date available
         $oneDayBeforeLattestTotalDose1DailyVaccinations = DailyVaccination::
