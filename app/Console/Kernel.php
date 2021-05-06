@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //         $schedule->command(GetVaccineData::class)->everyMinute();
-        $schedule->command(GetVaccineData::class)->>dailyAt('21:00');
+        $schedule->command(GetVaccineData::class)->dailyAt('21:00');
     }
 
     /**
