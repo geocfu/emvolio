@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command(GetVaccineData::class)->timezone('Europe/Athens')->dailyAt('21:05');
-        $schedule->command(GetVaccineData::class)->timezone('Europe/Athens')->hourly();
+        $schedule->command(GetVaccineData::class)->timezone('Europe/Athens')->dailyAt('01:00');
+        // $schedule->command(GetVaccineData::class)->timezone('Europe/Athens')->hourly();
     }
 
     /**
