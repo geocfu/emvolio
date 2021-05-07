@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GetVaccineData extends Command
 {
@@ -42,6 +43,7 @@ class GetVaccineData extends Command
      */
     public function handle()
     {
+        Log::info("started running");
         $url = env('DATA_GOV_GR_URL_VACCINE');
         $token= env('DATA_GOV_GR_TOKEN');
         
@@ -87,5 +89,7 @@ class GetVaccineData extends Command
                 );
             }
         });
+
+        Log::info("stopped running");
     }
 }
