@@ -1,7 +1,7 @@
-# <a href="https:/emvolio.org" target="_blank">emvolio.org</a>
+# emvolio.org
 
 <p align="center">
-  <a href="https:/emvolio.org" target="_blank">
+  <a href="https://emvolio.org" target="_blank">
     <img src="https://raw.githubusercontent.com/geocfu/emvolio/main/resources/images/logo.png" width="100">
     
   </a>
@@ -10,7 +10,7 @@
 
 ## About
 
-<a href="https:/emvolio.org" target="_blank">emvolio.org</a> is a simple website for displaying the current vaccination status in Greece, against COVID-19. The data that the website is using are coming from the official source for Greece, which is the Greek Ministry of Health.
+<a href="https://emvolio.org" target="_blank">emvolio.org</a> is a simple website for displaying the current vaccination status in Greece, against COVID-19. The data that the website is using are coming from the official source for Greece, which is the Greek Ministry of Health.
 
 Emvolio is completely open source. The reason behind this decision, is the fact that the application is not trying to gather money from its users, but, inform greek citiziens about the status of the vaccination.
 
