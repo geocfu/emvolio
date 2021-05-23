@@ -9,10 +9,11 @@
           >
         </template>
         <template #number>{{
-          totalVaccinations.toLocaleString("el-GR")
+          totalDose1Vaccinations.toLocaleString("el-GR")
         }}</template>
         <template #subtitle>
-          Συνολικός αριθμός εμβολιασμένων πολιτών στην Ελλαδα.
+          Συνολικός αριθμός εμβολιασμένων πολιτών με τουλάχιστον 1 δόση του
+          εμβολίου, στην Ελλαδα.
         </template>
         <template #lastUpdateRibbon> Τελευταια Ενημερωση </template>
         <template #lastUpdateNumber>
@@ -29,19 +30,19 @@
         Η πορεία του εμβολιασμού
         <span class="block lg:inline"> με μια ματιά </span>
       </template>
-      <template #subtitle> Ποσοστά εμβολιασμένων πολιτών </template>
+      <template #subtitle>
+        Ποσοστά εμβολιασμών για την 1η και την 2η δόση του εμβολίου
+      </template>
 
-      <template #leftTitle
-        >Σύνολο εμβολιασμένων πολιτών με 1η & 2η δόση</template
-      >
+      <template #leftTitle>Συνολικό ποσοστό εμβολιασμών</template>
       <template #leftPercentage> {{ totalVaccinationsPercentage }} % </template>
 
-      <template #middleTitle>Εμβολιασμένοι πολίτες με 1η δόση</template>
+      <template #middleTitle>Ποσοστό εμβολιασμών με την 1η δόση</template>
       <template #middlePercentage>
         {{ totalDose1VaccinationsPercentage }} %
       </template>
 
-      <template #rightTitle>Εμβολιασμένοι πολίτες με 2η δόση</template>
+      <template #rightTitle>Ποσοστό εμβολιασμών με την 2η δόση</template>
       <template #rightPercentage>
         {{ totalDose2VaccinationsPercentage }} %</template
       >
@@ -91,7 +92,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 import AppLayout from "./Layouts/AppLayout.vue";
 import HeaderSection from "../Components/HeaderSection.vue";
@@ -170,28 +171,25 @@ export default {
   },
 
   setup(props) {
-    const totalVaccinationsPercentage = (
-      (props.totalVaccinations / GREEK_POPULATION) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
+    const totalVaccinationsPercentage = computed(() =>
+      ((props.totalVaccinations / GREEK_POPULATION) * 100)
+        .toFixed(2)
+        .toLocaleString("el-GR")
+    );
 
-    const totalDose1VaccinationsPercentage = (
-      (props.totalDose1Vaccinations / GREEK_POPULATION) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
+    const totalDose1VaccinationsPercentage = computed(() =>
+      ((props.totalDose1Vaccinations / GREEK_POPULATION) * 100)
+        .toFixed(2)
+        .toLocaleString("el-GR")
+    );
 
-    const totalDose2VaccinationsPercentage = (
-      (props.totalDose2Vaccinations / GREEK_POPULATION) *
-      100
-    )
-      .toFixed(2)
-      .toLocaleString("el-GR");
+    const totalDose2VaccinationsPercentage = computed(() =>
+      ((props.totalDose2Vaccinations / GREEK_POPULATION) * 100)
+        .toFixed(2)
+        .toLocaleString("el-GR")
+    );
 
-    const dailyTotalVaccinationsChangePercentage =
+    const dailyTotalVaccinationsChangePercentage = computed(() =>
       props.oneDayBeforeLattestTotalDailyVaccinations !== 0
         ? (
             ((props.lattestTotalDailyVaccinations -
@@ -201,9 +199,10 @@ export default {
           )
             .toFixed(2)
             .toLocaleString("el-GR")
-        : "Ραγδαία Μεταβολή";
+        : "Ραγδαία Μεταβολή"
+    );
 
-    const dailyTotalDose1VaccinationsChangePercentage =
+    const dailyTotalDose1VaccinationsChangePercentage = computed(() =>
       props.oneDayBeforeLattestTotalDose1DailyVaccinations !== 0
         ? (
             ((props.lattestTotalDose1DailyVaccinations -
@@ -213,9 +212,10 @@ export default {
           )
             .toFixed(2)
             .toLocaleString("el-GR")
-        : "Ραγδαία Μεταβολή";
+        : "Ραγδαία Μεταβολή"
+    );
 
-    const dailyTotalDose2VaccinationsChangePercentage =
+    const dailyTotalDose2VaccinationsChangePercentage = computed(() =>
       props.oneDayBeforeLattestTotalDose2DailyVaccinations !== 0
         ? (
             ((props.lattestTotalDose2DailyVaccinations -
@@ -225,19 +225,20 @@ export default {
           )
             .toFixed(2)
             .toLocaleString("el-GR")
-        : "Ραγδαία Μεταβολή";
+        : "Ραγδαία Μεταβολή"
+    );
 
     const simpleStats = [
       {
-        name: "Εμβολιασμένοι πολίτες με 1η & 2η δόση",
+        name: "Αριθμός εμβολιασμών με την 1η & 2η δόση",
         stat: props.totalVaccinations.toLocaleString("el-GR"),
       },
       {
-        name: "Εμβολιασμένοι πολίτες με 1η δόση",
+        name: "Αριθμός εμβολιασμών με την 1η δόση",
         stat: props.totalDose1Vaccinations.toLocaleString("el-GR"),
       },
       {
-        name: "Εμβολιασμένοι πολίτες με 2η δόση",
+        name: "Αριθμός εμβολιασμών με την 2η δόση",
         stat: props.totalDose2Vaccinations.toLocaleString("el-GR"),
       },
     ];
@@ -249,7 +250,7 @@ export default {
         previousStat: props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
           "el-GR"
         ),
-        change: `${dailyTotalVaccinationsChangePercentage} %`,
+        change: `${dailyTotalVaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDailyVaccinations >
           props.oneDayBeforeLattestTotalDailyVaccinations
@@ -263,7 +264,7 @@ export default {
         previousStat: props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
           "el-GR"
         ),
-        change: `${dailyTotalDose1VaccinationsChangePercentage} %`,
+        change: `${dailyTotalDose1VaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDose1DailyVaccinations >
           props.oneDayBeforeLattestTotalDose1DailyVaccinations
@@ -277,7 +278,7 @@ export default {
         previousStat: props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
           "el-GR"
         ),
-        change: `${dailyTotalDose2VaccinationsChangePercentage} %`,
+        change: `${dailyTotalDose2VaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDose2DailyVaccinations >
           props.oneDayBeforeLattestTotalDose2DailyVaccinations
