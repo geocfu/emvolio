@@ -10,13 +10,11 @@ use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index(): Response
+    public function index()
     {
         // All the districts
-        $districts = District::
-            with(['dailyVaccinations'])
+        $districts = District::with(['dailyVaccinations'])
             ->get(['area', 'total_vaccinations', 'total_dose_1', 'total_dose_2']);
-        // $districts = DailyVaccination::get();
 
         // The number of vaccinated citizens for the first and second dose
         $totalVaccinations = District::sum('total_vaccinations');
@@ -28,41 +26,44 @@ class HomeController extends Controller
         $totalDose2Vaccinations = District::sum('total_dose_2');
 
         // The date of the last update
-        $lattestUpdateDatetime = District::orderBy('reference_date', 'desc')
+        $lattestUpdateDatetime = District::orderByDesc('reference_date')
             ->first(['reference_date']);
 
         // The date of one update before the lattest
         $oneDayBeforelattestUpdateDatetime = date('Y-m-d', strtotime(substr($lattestUpdateDatetime->reference_date, 0, -9).'-1 days'));
-        
+
         // The number of vaccinated citizens for the lattest date available
-        $lattestTotalDailyVaccinations = DailyVaccination::where('reference_date', '=', $lattestUpdateDatetime->reference_date)
+        $lattestTotalDailyVaccinations = DailyVaccination::
+            whereReferenceDate($lattestUpdateDatetime->reference_date)
             ->sum('day_total');
 
         // The number of vaccinated citizens for 1 day before the lattest date available
         $oneDayBeforeLattestTotalDailyVaccinations = DailyVaccination::
-            where('reference_date', '=', $oneDayBeforelattestUpdateDatetime)
+            whereReferenceDate($oneDayBeforelattestUpdateDatetime)
             ->sum('day_total');
 
         // The number of vaccinated citizens for the first dose for the lattest date available
-        $lattestTotalDose1DailyVaccinations = DailyVaccination::where('reference_date', '=', $lattestUpdateDatetime->reference_date)
+        $lattestTotalDose1DailyVaccinations = DailyVaccination::
+            whereReferenceDate($lattestUpdateDatetime->reference_date)
             ->sum('daily_dose_1');
 
         // The number of vaccinated citizens for the first dose for 1 day before the lattest date available
         $oneDayBeforeLattestTotalDose1DailyVaccinations = DailyVaccination::
-            where('reference_date', '=', $oneDayBeforelattestUpdateDatetime)
+            whereReferenceDate($oneDayBeforelattestUpdateDatetime)
             ->sum('daily_dose_1');
 
         // The number of vaccinated citizens for the second dose for the lattest date available
-        $lattestTotalDose2DailyVaccinations = DailyVaccination::where('reference_date', '=', $lattestUpdateDatetime->reference_date)
-        ->sum('daily_dose_2');
+        $lattestTotalDose2DailyVaccinations = DailyVaccination::
+            whereReferenceDate($lattestUpdateDatetime->reference_date)
+            ->sum('daily_dose_2');
 
         // The number of vaccinated citizens for the first dose for 1 day before the lattest date available
         $oneDayBeforeLattestTotalDose2DailyVaccinations = DailyVaccination::
-            where('reference_date', '=', $oneDayBeforelattestUpdateDatetime)
+            whereReferenceDate($oneDayBeforelattestUpdateDatetime)
             ->sum('daily_dose_2');
 
         // $districts1 = District::with(['dailyVaccinations'])->get()->toJson(JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-        
+
         return Inertia::render('Home', [
             'districts' => $districts,
             'totalVaccinations' => $totalVaccinations,
