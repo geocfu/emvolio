@@ -17,13 +17,13 @@ class CreateDailyVaccinationsTable extends Migration
             $table->id();
 
             $table->foreignId('district_id')->constrained();
-            
+
             $table->integer('daily_dose_1');
             $table->integer('daily_dose_2');
             $table->integer('day_difference');
             $table->integer('day_total');
             $table->dateTime('reference_date');
-            
+
             $table->timestamps();
         });
     }

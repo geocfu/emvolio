@@ -18,13 +18,13 @@ class CreateDistrictsTable extends Migration
 
             $table->string('area');
             $table->integer('area_id');
-            
+
             $table->dateTime('reference_date');
             $table->integer('total_distinct_persons');
             $table->integer('total_dose_1');
             $table->integer('total_dose_2');
             $table->integer('total_vaccinations');
-            
+
             $table->timestamps();
         });
     }

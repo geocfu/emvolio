@@ -11,10 +11,10 @@ class DailyVaccination extends Model
     use HasFactory;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
        'district_id',
        'daily_dose_1',

@@ -6,8 +6,8 @@ use App\Models\DailyVaccination;
 use App\Models\District;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class GetVaccineData extends Command
@@ -43,17 +43,17 @@ class GetVaccineData extends Command
      */
     public function handle()
     {
-        Log::info("started running");
+        Log::info('started running');
         $url = env('DATA_GOV_GR_URL_VACCINE');
-        $token= env('DATA_GOV_GR_TOKEN');
-        
+        $token = env('DATA_GOV_GR_TOKEN');
+
         $response = Http::withHeaders([
-            'Authorization' => "Token $token"
+            'Authorization' => "Token $token",
         ])
         ->get($url)
         ->json();
-        
-        if (!Arr::accessible($response)) {
+
+        if (! Arr::accessible($response)) {
             info('Response is not configured correctly, aborting!');
             //TODO: dispatch an email to anounce that to the sysadmin
             return;
@@ -74,7 +74,7 @@ class GetVaccineData extends Command
                         'total_vaccinations' => $districtFromApi['totalvaccinations'],
                     ]
                 );
-            
+
                 DailyVaccination::updateOrCreate(
                     [
                         'district_id' => $district->id,
@@ -90,6 +90,6 @@ class GetVaccineData extends Command
             }
         });
 
-        Log::info("stopped running");
+        Log::info('stopped running');
     }
 }
