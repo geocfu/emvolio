@@ -43,17 +43,16 @@ class GetVaccineData extends Command
      */
     public function handle()
     {
-        Log::info("started running");
         $url = env('DATA_GOV_GR_URL_VACCINE');
         $token= env('DATA_GOV_GR_TOKEN');
-        
+
         $response = Http::withHeaders([
             'Authorization' => "Token $token"
         ])
         ->get($url)
         ->json();
-        
-        if (!Arr::accessible($response)) {
+
+        if (! Arr::accessible($response)) {
             info('Response is not configured correctly, aborting!');
             //TODO: dispatch an email to anounce that to the sysadmin
             return;
@@ -74,8 +73,8 @@ class GetVaccineData extends Command
                         'total_vaccinations' => $districtFromApi['totalvaccinations'],
                     ]
                 );
-            
-                DailyVaccination::updateOrCreate(
+
+                DailyVaccination::firstOrCreate(
                     [
                         'district_id' => $district->id,
                         'reference_date' => $districtFromApi['referencedate'],
@@ -89,7 +88,5 @@ class GetVaccineData extends Command
                 );
             }
         });
-
-        Log::info("stopped running");
     }
 }
