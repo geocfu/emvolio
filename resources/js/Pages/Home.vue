@@ -1,12 +1,20 @@
 <template>
+
+  <inertia-head>
+    <title>emvolio.org</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="emvolio.org is a web application used for displaying the vaccination status against covid-19, for Greece."
+    />
+  </inertia-head>
+
   <app-layout>
     <template #header>
       <header-section>
         <template #title>
           Aριθμός εμβολιασμένων πολιτών κατά του
-          <span class="text-red-600 sm:inline md:block lg:inline"
-            >COVID-19</span
-          >
+          <span class="text-red-600 sm:inline md:block lg:inline">COVID-19</span>
         </template>
         <template #number>{{
           totalDose1Vaccinations.toLocaleString("el-GR")
@@ -20,7 +28,10 @@
           {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
         </template>
         <template #dataSource>
-          Πηγή: <a href="https://data.gov.gr" target="blank">data.gov.gr</a>
+          Πηγή: <a
+            href="https://data.gov.gr"
+            target="blank"
+          >data.gov.gr</a>
         </template>
       </header-section>
     </template>
@@ -44,8 +55,7 @@
 
       <template #rightTitle>Ποσοστό εμβολιασμών με την 2η δόση</template>
       <template #rightPercentage>
-        {{ totalDose2VaccinationsPercentage }} %</template
-      >
+        {{ totalDose2VaccinationsPercentage }} %</template>
     </main-stats>
 
     <simple-stats :stats="simpleStats"></simple-stats>
@@ -247,9 +257,10 @@ export default {
       {
         name: `Εμβολιασμοί 1ης & 2ης δόσης`,
         stat: props.lattestTotalDailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
+        previousStat:
+          props.oneDayBeforeLattestTotalDailyVaccinations.toLocaleString(
+            "el-GR"
+          ),
         change: `${dailyTotalVaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDailyVaccinations >
@@ -261,9 +272,10 @@ export default {
       {
         name: "Εμβολιασμοί 1ης δόσης",
         stat: props.lattestTotalDose1DailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
+        previousStat:
+          props.oneDayBeforeLattestTotalDose1DailyVaccinations.toLocaleString(
+            "el-GR"
+          ),
         change: `${dailyTotalDose1VaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDose1DailyVaccinations >
@@ -275,9 +287,10 @@ export default {
       {
         name: "Εμβολιασμοί 2ης δόσης",
         stat: props.lattestTotalDose2DailyVaccinations.toLocaleString("el-GR"),
-        previousStat: props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
-          "el-GR"
-        ),
+        previousStat:
+          props.oneDayBeforeLattestTotalDose2DailyVaccinations.toLocaleString(
+            "el-GR"
+          ),
         change: `${dailyTotalDose2VaccinationsChangePercentage.value} %`,
         changeType: `${
           props.lattestTotalDose2DailyVaccinations >
