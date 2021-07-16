@@ -43,20 +43,28 @@ class GetVaccineData extends Command
      */
     public function handle()
     {
-        $url = env('DATA_GOV_GR_URL_VACCINE');
-        $token= env('DATA_GOV_GR_TOKEN');
+        $endpoint = config('api.endpoint');
+        $token = config('api.token');
 
-        $response = Http::withHeaders([
-            'Authorization' => "Token $token"
-        ])
-        ->get($url)
-        ->json();
+        $dateFrom = '2020-12-28'; // The very first day of available data
+        $dateTo = date('Y-m-d'); // current date
 
-        if (! Arr::accessible($response)) {
+        if (District::exists()) $dateFrom = date('Y-m-d', strtotime('-1 days'));
+
+        $response = Http::withToken($token, 'Token')
+            ->get($endpoint, [
+                'date_from' => $dateFrom,
+                'date_to' => $dateTo,
+            ]);
+
+        if (!Arr::accessible($response->json()) || $response->failed()) {
             info('Response is not configured correctly, aborting!');
-            //TODO: dispatch an email to anounce that to the sysadmin
+
             return;
         }
+
+        // The API is returning the data in a completely unsorted format.
+        $response = Arr::sort($response->json(), 'referencedate');
 
         DB::transaction(function () use ($response) {
             foreach ($response as $districtFromApi) {
