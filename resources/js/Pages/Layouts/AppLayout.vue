@@ -78,32 +78,32 @@
           class="relative flex items-center justify-between sm:h-10 md:justify-center"
           aria-label="Global"
         >
-          <div
-            class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0"
-          >
+          <div class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
             <div class="flex items-center justify-between w-full md:w-auto">
-              <inertia-link href="#">
-                <span class="sr-only">emvolio.org</span>
-                <Logo class="h-16 w-auto sm:h-24"></Logo>
-              </inertia-link>
+              <Link href="#">
+              <span class="sr-only">emvolio.org</span>
+              <Logo class="h-16 w-auto sm:h-24"></Logo>
+              </Link>
               <div class="-mr-2 flex items-center md:hidden">
-                <PopoverButton
-                  class="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                >
+                <PopoverButton class="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                   <span class="sr-only">Open main menu</span>
-                  <MenuIcon class="h-6 w-6" aria-hidden="true" />
+                  <MenuIcon
+                    class="h-6 w-6"
+                    aria-hidden="true"
+                  />
                 </PopoverButton>
               </div>
             </div>
           </div>
           <div class="hidden md:flex md:space-x-10">
-            <inertia-link
+            <Link
               v-for="item in navigation.main"
               :key="item.name"
               :href="item.href"
               class="font-medium text-gray-500 hover:text-gray-900"
-              >{{ item.name }}
-            </inertia-link>
+            >
+            {{ item.name }}
+            </Link>
           </div>
         </nav>
       </div>
@@ -120,30 +120,30 @@
           focus
           class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
         >
-          <div
-            class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden"
-          >
+          <div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
             <div class="px-5 pt-4 flex items-center justify-between">
               <div>
                 <Logo class="h-16 w-auto"></Logo>
               </div>
               <div class="-mr-2">
-                <PopoverButton
-                  class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                >
+                <PopoverButton class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                   <span class="sr-only">Close menu</span>
-                  <XIcon class="h-6 w-6" aria-hidden="true" />
+                  <XIcon
+                    class="h-6 w-6"
+                    aria-hidden="true"
+                  />
                 </PopoverButton>
               </div>
             </div>
             <div class="px-2 pt-2 pb-3 text-center">
-              <inertia-link
+              <Link
                 v-for="item in navigation.main"
                 :key="item.name"
                 :href="item.href"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                >{{ item.name }}
-              </inertia-link>
+              >
+              {{ item.name }}
+              </Link>
             </div>
           </div>
         </PopoverPanel>
@@ -163,13 +163,17 @@
         class="-mx-5 -my-2 flex flex-wrap justify-center"
         aria-label="Footer"
       >
-        <div v-for="item in navigation.main" :key="item.name" class="px-5 py-2">
-          <inertia-link
+        <div
+          v-for="item in navigation.main"
+          :key="item.name"
+          class="px-5 py-2"
+        >
+          <Link
             :href="item.href"
             class="text-base text-gray-500 hover:text-gray-900"
           >
-            {{ item.name }}
-          </inertia-link>
+          {{ item.name }}
+          </Link>
         </div>
       </nav>
       <div class="mt-8 flex justify-center space-x-6">
@@ -181,13 +185,16 @@
           target="blank"
         >
           <span class="sr-only">{{ item.name }}</span>
-          <component :is="item.icon" class="h-6 w-6" aria-hidden="true" />
+          <component
+            :is="item.icon"
+            class="h-6 w-6"
+            aria-hidden="true"
+          />
         </a>
       </div>
       <p class="mt-8 text-center text-base text-gray-400">
         <span class="block">
-          &copy; {{ currentYear }} Open Source Project, emvolio.org</span
-        >
+          &copy; {{ currentYear }} Open Source Project, emvolio.org</span>
         <span class="block">All rights reserved.</span>
       </p>
       <div class="flex justify-center justify-items-center">
@@ -199,6 +206,7 @@
 
 <script>
 import { defineComponent, h } from "vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 import Logo from "../../Components/Logo.vue";
 
@@ -207,6 +215,7 @@ import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 
 export default {
   components: {
+    Link,
     Popover,
     PopoverButton,
     PopoverPanel,
@@ -229,8 +238,7 @@ export default {
               h("svg", { fill: "currentColor", viewBox: "0 0 24 24" }, [
                 h("path", {
                   "fill-rule": "evenodd",
-                  d:
-                    "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z",
+                  d: "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z",
                   "clip-rule": "evenodd",
                 }),
               ]),

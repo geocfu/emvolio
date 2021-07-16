@@ -1,7 +1,10 @@
 <template>
   <div class="bg-white py-16 sm:py-24">
     <div class="relative sm:py-16">
-      <div aria-hidden="true" class="hidden sm:block">
+      <div
+        aria-hidden="true"
+        class="hidden sm:block"
+      >
         <div class="absolute inset-y-0 left-0 w-1/2 bg-gray-50 rounded-r-3xl" />
         <svg
           class="absolute top-8 left-1/2 -ml-3"
@@ -36,12 +39,8 @@
           />
         </svg>
       </div>
-      <div
-        class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8"
-      >
-        <div
-          class="relative rounded-2xl px-6 py-10 bg-blue-600 overflow-hidden shadow-xl sm:px-12 sm:py-20"
-        >
+      <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="relative rounded-2xl px-6 py-10 bg-blue-600 overflow-hidden shadow-xl sm:px-12 sm:py-20">
           <div
             aria-hidden="true"
             class="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0"
@@ -67,9 +66,7 @@
           </div>
           <div class="relative">
             <div class="sm:text-center">
-              <h2
-                class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl"
-              >
+              <h2 class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
                 <slot name="title"></slot>
               </h2>
               <p class="mt-6 mx-auto max-w-2xl text-lg text-blue-200">

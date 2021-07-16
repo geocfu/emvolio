@@ -1,13 +1,12 @@
 <template>
 
-  <inertia-head>
-    <title>emvolio.org</title>
+  <Head>
     <meta
       head-key="description"
       name="description"
       content="emvolio.org is a web application used for displaying the vaccination status against covid-19, for Greece."
     />
-  </inertia-head>
+  </Head>
 
   <app-layout>
     <template #header>
@@ -28,10 +27,13 @@
           {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
         </template>
         <template #dataSource>
-          Πηγή: <a
+          Πηγή:
+          <a
             href="https://data.gov.gr"
             target="blank"
-          >data.gov.gr</a>
+          >
+            data.gov.gr
+          </a>
         </template>
       </header-section>
     </template>
@@ -103,6 +105,7 @@
 
 <script>
 import { computed } from "vue";
+import { Head } from "@inertiajs/inertia-vue3";
 
 import AppLayout from "./Layouts/AppLayout.vue";
 import HeaderSection from "../Components/HeaderSection.vue";
@@ -118,6 +121,7 @@ const GREEK_POPULATION = 10720000;
 
 export default {
   components: {
+    Head,
     AppLayout,
     HeaderSection,
     MainStats,

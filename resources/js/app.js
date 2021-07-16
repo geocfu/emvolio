@@ -1,19 +1,17 @@
 require('./bootstrap');
 
 import { createApp, h } from 'vue'
-import { App, plugin } from '@inertiajs/inertia-vue3'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 
-const el = document.getElementById('app')
-
-createApp({
-  render: () => h(App, {
-    initialPage: JSON.parse(el.dataset.page),
-    resolveComponent: name => import(`./Pages/${name}`).then(module => module.default),
-  })
-}).use(plugin).mount(el)
-
-InertiaProgress.init({
-  color: '#10B981',
-  showSpinner: false,
+createInertiaApp({
+  title: title => title ? `${title} - emvolio.org` : `emvolio.org`,
+  resolve: name => require(`./Pages/${name}`).default,
+  setup({ el, app, props, plugin }) {
+    createApp({ render: () => h(app, props) })
+      .use(plugin)
+      .mount(el)
+  },
 })
+
+InertiaProgress.init({ color: '#10B981' })
