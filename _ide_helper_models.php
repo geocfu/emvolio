@@ -37,9 +37,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DailyVaccination whereReferenceDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DailyVaccination whereUpdatedAt($value)
  */
-    class DailyVaccination extends \Eloquent
-    {
-    }
+	class DailyVaccination extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -72,9 +70,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|District whereTotalVaccinations($value)
  * @method static \Illuminate\Database\Eloquent\Builder|District whereUpdatedAt($value)
  */
-    class District extends \Eloquent
-    {
-    }
+	class District extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -104,7 +100,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-    class User extends \Eloquent
-    {
-    }
+	class User extends \Eloquent {}
 }
+
