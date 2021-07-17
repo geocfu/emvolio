@@ -1,10 +1,6 @@
 <template>
 
-  <Head>
-    <title>
-      {{ title }}
-    </title>
-
+  <Head :title="title">
     <meta
       head-key="description"
       name="description"
@@ -30,7 +26,7 @@
     <meta
       head-key="og:image"
       property="og:image"
-      :content="ogImage"
+      :content="openGraphImage"
     />
     <meta
       head-key="og:type"
@@ -77,6 +73,7 @@ export default {
     title: {
       type: String,
       required: true,
+      validator: (value) => value.length,
     },
     description: {
       type: String,
@@ -112,7 +109,10 @@ export default {
 
   setup(props) {
     const baseUrl = process.env.MIX_APP_URL;
-    const ogImage = props.ogImage ?? `${baseUrl}/images/logo.png`;
+
+    const ogImage = props.ogImage.length
+      ? props.ogImage
+      : `${baseUrl}/images/logo.png`;
 
     return {
       baseUrl,

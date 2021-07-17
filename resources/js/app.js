@@ -7,7 +7,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 const appName = process.env.MIX_APP_NAME;
 
 createInertiaApp({
-  title: title => title ? `${title} - ${appName}` : `${appName}`,
+  title: title => `${title} - ${appName}`,
   resolve: name => require(`./Pages/${name}`).default,
   setup({ el, app, props, plugin }) {
     createApp({ render: () => h(app, props) })
@@ -16,4 +16,4 @@ createInertiaApp({
   },
 });
 
-InertiaProgress.init({ color: '#10B981' });
+InertiaProgress.init({ color: '#3b82f6' });
