@@ -7,7 +7,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 const appName = process.env.MIX_APP_NAME;
 
 createInertiaApp({
-  title: title => `${title} - ${appName}`,
+  title: title => title ? `${title} - ${appName}` : `${appName}`,
   resolve: name => require(`./Pages/${name}`).default,
   setup({ el, app, props, plugin }) {
     createApp({ render: () => h(app, props) })

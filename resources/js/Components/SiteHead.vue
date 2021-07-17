@@ -1,6 +1,14 @@
 <template>
 
-  <Head :title="title">
+  <Head>
+    <title>{{ title }}</title>
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="../images/logo.png"
+    />
+
     <meta
       head-key="description"
       name="description"
@@ -26,7 +34,7 @@
     <meta
       head-key="og:image"
       property="og:image"
-      :content="openGraphImage"
+      :content="ogImage"
     />
     <meta
       head-key="og:type"
@@ -73,7 +81,6 @@ export default {
     title: {
       type: String,
       required: true,
-      validator: (value) => value.length,
     },
     description: {
       type: String,
