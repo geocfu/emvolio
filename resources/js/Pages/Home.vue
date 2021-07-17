@@ -19,6 +19,9 @@
         <template #lastUpdateNumber>
           {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
         </template>
+        <template #updateFrequency>
+          Η ενημέρωση των δεδομένων πραγματοποιείται καθημερινά στις 21:00.
+        </template>
         <template #dataSource>
           Πηγή:
           <a

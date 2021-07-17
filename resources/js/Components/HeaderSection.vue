@@ -28,6 +28,11 @@
           aria-hidden="true"
         />
       </div>
+      <div>
+        <p class="mt-1 max-w-md mx-auto text-xs text-gray-500 sm:text-xs md:mt-1 md:text-xs md:max-w-3xl">
+          <slot name="updateFrequency"></slot>
+        </p>
+      </div>
     </div>
     <div class="flex justify-center justify-items-center mt-5">
       <div>
