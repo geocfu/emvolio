@@ -1,16 +1,9 @@
 <template>
+  <SiteHead title="Αρχική" />
 
-  <Head>
-    <meta
-      head-key="description"
-      name="description"
-      content="emvolio.org is a web application used for displaying the vaccination status against covid-19, for Greece."
-    />
-  </Head>
-
-  <app-layout>
+  <AppLayout>
     <template #header>
-      <header-section>
+      <HeaderSection>
         <template #title>
           Aριθμός εμβολιασμένων πολιτών κατά του
           <span class="text-red-600 sm:inline md:block lg:inline">COVID-19</span>
@@ -35,10 +28,10 @@
             data.gov.gr
           </a>
         </template>
-      </header-section>
+      </HeaderSection>
     </template>
 
-    <main-stats>
+    <MainStats>
       <template #title>
         Η πορεία του εμβολιασμού
         <span class="block lg:inline"> με μια ματιά </span>
@@ -58,11 +51,11 @@
       <template #rightTitle>Ποσοστό εμβολιασμών με την 2η δόση</template>
       <template #rightPercentage>
         {{ totalDose2VaccinationsPercentage }} %</template>
-    </main-stats>
+    </MainStats>
 
-    <simple-stats :stats="simpleStats"></simple-stats>
+    <SimpleStats :stats="simpleStats" />
 
-    <stats :stats="stats">
+    <Stats :stats="stats">
       <template #information>
         Στατιστικά δεδομένα για
         {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }} σε
@@ -73,25 +66,25 @@
           )
         }}
       </template>
-    </stats>
+    </Stats>
 
-    <districts-table :districts="districts">
+    <DistrictsTable :districts="districts">
       <template #information>
         Πρόοδος εμβολιασμού ανά Περιφερειακή Ενότητα
       </template>
-    </districts-table>
+    </DistrictsTable>
 
-    <section-title>
+    <SectionTitle>
       <template #title> Χορηγοί </template>
       <template #subtitle>
         H κάλυψη των εξόδων της εφαρμογής, καλύπτεται αποκλειστικά, από τους
         παρακάτω χορηγούς.
       </template>
-    </section-title>
+    </SectionTitle>
 
-    <sponsors :sponsors="sponsors"> </sponsors>
+    <Sponsors :sponsors="sponsors" />
 
-    <project-information>
+    <ProjectInformation>
       <template #title> Έργο Ανοιχτού Λογισμικού </template>
       <template #subtitle>
         Η παρούσα εφαρμογή, αποτελεί έργο ανοιχτού λογισμικού και ο κώδικάς της
@@ -99,14 +92,14 @@
         συλλογή εσόδων, αλλά, η ενημέρωση των πολιτών για την πορεία του
         εμβολιασμού κατά της λοίμωξης COVID-19, στην Ελλάδα.
       </template>
-    </project-information>
-  </app-layout>
+    </ProjectInformation>
+  </AppLayout>
 </template>
 
 <script>
 import { computed } from "vue";
-import { Head } from "@inertiajs/inertia-vue3";
 
+import SiteHead from "../Components/SiteHead.vue";
 import AppLayout from "./Layouts/AppLayout.vue";
 import HeaderSection from "../Components/HeaderSection.vue";
 import MainStats from "../Components/MainStats.vue";
@@ -121,7 +114,7 @@ const GREEK_POPULATION = 10720000;
 
 export default {
   components: {
-    Head,
+    SiteHead,
     AppLayout,
     HeaderSection,
     MainStats,
