@@ -8,16 +8,16 @@
           Aριθμός εμβολιασμένων πολιτών κατά του
           <span class="text-red-600 sm:inline md:block lg:inline">COVID-19</span>
         </template>
-        <template #number>{{
-          totalDose1Vaccinations.toLocaleString("el-GR")
-        }}</template>
+        <template #number>
+          {{ totalDose1Vaccinations.toLocaleString("el-GR") }}
+        </template>
         <template #subtitle>
           Συνολικός αριθμός εμβολιασμένων πολιτών με τουλάχιστον 1 δόση του
           εμβολίου, στην Ελλαδα.
         </template>
-        <template #lastUpdateRibbon> Τελευταια Ενημερωση </template>
+        <template #lastUpdateRibbon>Τελευταια Ενημερωση</template>
         <template #lastUpdateNumber>
-          {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }}
+          {{ lattestUpdateDatetime }}
         </template>
         <template #updateFrequency>
           Η ενημέρωση των δεδομένων πραγματοποιείται καθημερινά στις 21:00.
@@ -53,7 +53,8 @@
 
       <template #rightTitle>Ποσοστό εμβολιασμών με την 2η δόση</template>
       <template #rightPercentage>
-        {{ totalDose2VaccinationsPercentage }} %</template>
+        {{ totalDose2VaccinationsPercentage }} %
+      </template>
     </MainStats>
 
     <SimpleStats :stats="simpleStats" />
@@ -61,13 +62,9 @@
     <Stats :stats="stats">
       <template #information>
         Στατιστικά δεδομένα για
-        {{ new Date(lattestUpdateDatetime).toLocaleDateString("el-GR") }} σε
+        {{ lattestUpdateDatetime }} σε
         σχέση με
-        {{
-          new Date(oneDayBeforelattestUpdateDatetime).toLocaleDateString(
-            "el-GR"
-          )
-        }}
+        {{ oneDayBeforelattestUpdateDatetime }}
       </template>
     </Stats>
 
@@ -101,6 +98,8 @@
 
 <script>
 import { computed } from "vue";
+
+import dayjs from "dayjs";
 
 import SiteHead from "../Components/SiteHead.vue";
 import AppLayout from "./Layouts/AppLayout.vue";
@@ -181,6 +180,14 @@ export default {
   },
 
   setup(props) {
+    const lattestUpdateDatetime = computed(() =>
+      dayjs(props.lattestUpdateDatetime).format("DD/MM/YYYY")
+    );
+
+    const oneDayBeforelattestUpdateDatetime = computed(() =>
+      dayjs(props.oneDayBeforelattestUpdateDatetime).format("DD/MM/YYYY")
+    );
+
     const totalVaccinationsPercentage = computed(() =>
       ((props.totalVaccinations / GREEK_POPULATION) * 100)
         .toFixed(2)
@@ -315,6 +322,8 @@ export default {
     ];
 
     return {
+      lattestUpdateDatetime,
+      oneDayBeforelattestUpdateDatetime,
       totalVaccinationsPercentage,
       totalDose1VaccinationsPercentage,
       totalDose2VaccinationsPercentage,
