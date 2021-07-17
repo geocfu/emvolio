@@ -36,9 +36,9 @@
     </div>
     <div class="flex justify-center justify-items-center mt-5">
       <div>
-        <span class="text-xs text-gray-500">
+        <p class="text-xs text-gray-500">
           <slot name="dataSource"></slot>
-        </span>
+        </p>
       </div>
     </div>
   </div>
