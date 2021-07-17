@@ -14,6 +14,7 @@ class HomeController extends Controller
     {
         // All the districts
         $districts = District::with(['dailyVaccinations'])
+            ->orderBy('area', 'asc')
             ->get(['area', 'total_vaccinations', 'total_dose_1', 'total_dose_2']);
 
         // The number of vaccinated citizens for the first and second dose
