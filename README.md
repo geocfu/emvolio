@@ -45,3 +45,10 @@ Emvolio is open-sourced software licensed under the [GNU General Public License 
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ```
+
+## Preview
+
+Bellow, one can see the preview of the application, as it is represented in it's domain, <a href="https://emvolio.org" target="_blank">emvolio.org</a>
+
+
+![Screenshot 2021-07-30 at 13-47-44 emvolio org - Greek COVID-19 Vaccination Tracker](https://user-images.githubusercontent.com/9702033/127642655-35e33ff0-d506-449d-9b91-0a3043183590.png)
